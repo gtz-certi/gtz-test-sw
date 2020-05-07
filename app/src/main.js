@@ -6,23 +6,18 @@ const host = "0.0.0.0";
 const firstTwenty = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove",
                      "dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
 const dozens = ["vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
-const hundreds = ["cem", "duzentos", "trezentos", "quatrocentos", "quinhetos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
+const hundreds = ["cento", "duzentos", "trezentos", "quatrocentos", "quinhetos", "seiscentos", "setecentos", "oitocentos", "novecentos"];
 
 function converterNumberFormat(a) {
   var numberConverted = "";
-  var number = a; 
   var aux;
-
-  if (number < 0) {
-    number = -number;
-    numberConverted += "menos "; 
-  }
+  var number = Math.abs(a); 
 
   if (number != 0) {
     if (number >= 1000) {
       aux = parseInt(number / 1000);
       if (aux >= 20) {
-        numberConverted += dozens[parseInt(aux / 10) - 2];
+        numberConverted = dozens[parseInt(aux / 10) - 2];
         aux = aux % 10;
         if (aux > 0) {
           numberConverted += " e ";
@@ -35,16 +30,21 @@ function converterNumberFormat(a) {
     }
 
     aux = parseInt(number % 1000);
-    if (aux >= 100) {
-      if (numberConverted != "" && numberConverted != "menos ") {
+    if (aux > 100) {
+      if (numberConverted != "") {
         numberConverted += " e ";
       }
       numberConverted += hundreds[parseInt(aux / 100) - 1];
+    } else if (aux == 100) {
+      if (numberConverted != "") {
+        numberConverted += " e ";
+      }
+      numberConverted += "cem";
     }
 
     aux = parseInt(number % 100);
     if (aux > 0) {
-      if (numberConverted != "" && numberConverted != "menos ") {
+      if (numberConverted != "") {
         numberConverted += " e ";
       }
       if (aux >= 20) {
@@ -58,8 +58,13 @@ function converterNumberFormat(a) {
         numberConverted += firstTwenty[aux];
       }  
     }
+
+    if (a < 0) {
+      numberConverted = "menos " + numberConverted;
+    }
+
   } else {
-    numberConverted += firstTwenty[number];
+    numberConverted = firstTwenty[number];
   }
 
   return numberConverted;
