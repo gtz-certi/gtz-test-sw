@@ -1,6 +1,7 @@
 const http = require('http');
 
-const port = 3000;	
+const port = 3000;
+const host = "0.0.0.0";	
 
 const firstTwenty = ["zero", "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove",
                      "dez", "onze", "doze", "treze", "catorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
@@ -116,7 +117,7 @@ const requestHandler = function (req, res) {
 
 const server = http.createServer(requestHandler);
 
-server.listen(port, function() {
+server.listen(port, host, function() {
   console.log('Starting HTTP server on port '+ port);
 });
 
